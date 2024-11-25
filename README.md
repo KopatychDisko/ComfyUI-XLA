@@ -30,3 +30,11 @@ To monitor tpu-info
 ```
 watch -n0 tpu-info
 ```
+
+
+#### To-do list
+
+- [X] Bare Minimum TPUs/XLA devices support
+- [X] Install & Requirements Docs
+- [ ] SPMD mode
+- [ ] Eager mode 
