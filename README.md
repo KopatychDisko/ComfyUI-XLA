@@ -8,7 +8,7 @@
 
 Users can enable by adding the command line arg `--xla`
 ```
-python3.1o main.py --xla
+python3.10 main.py --xla
 ```
 
 #### TPU/XLA Devices Requirements
