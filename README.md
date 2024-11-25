@@ -4,7 +4,14 @@
 **TPUs/XLA devices support for ComfyUI**
 </div>
 
-#### TPU/XLA Devices
+#### TPU/XLA Devices Mode
+
+Users can enable by adding the command line arg `--xla`
+```
+python3.1o main.py --xla
+```
+
+#### TPU/XLA Devices Requirements
 Users with TPU/XLA devices can install the PyTorch XLA stable build with the following command:
 
 ```
