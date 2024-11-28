@@ -55,6 +55,6 @@ watch -n0 tpu-info
 - [X] Bare Minimum TPUs/XLA devices support
 - [X] Install & Requirements Docs
 - [X] Cache XLA HLO Graph
-- [X] SPMD mode
+- [X] SPMD/FSDPv2 mode
 - [ ] Optimize For ComfyUI
 - [ ] Eager mode 
