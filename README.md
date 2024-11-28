@@ -14,6 +14,7 @@
 - 29/11/2024: Multi-TPUs/XLA devices support for ComfyUI! Might even work on GPUs!
 - 26/11/2024: Initial ComfyUI Support for TPUs/XLA devices!
 
+
 #### TPU/XLA Devices Mode
 
 Users can enable by adding the command line arg `--xla`
@@ -25,6 +26,7 @@ To utilize all your devices with SPMD/FSDPv2, you can use the command line arg `
 ```
 python3.10 main.py --xla_spmd
 ```
+
 
 #### TPU/XLA Devices Requirements
 Users with TPU/XLA devices can install the PyTorch XLA stable build with the following command:
@@ -52,6 +54,7 @@ To monitor tpu-info
 ```
 watch -n0 tpu-info
 ```
+
 
 
 #### To-do list
