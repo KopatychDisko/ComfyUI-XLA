@@ -17,6 +17,11 @@ Users can enable by adding the command line arg `--xla`
 python3.10 main.py --xla
 ```
 
+To utilize all your devices with SPMD/FSDPv2, you can use the command line arg `--xla_spmd`
+```
+python3.10 main.py --xla_spmd
+```
+
 #### TPU/XLA Devices Requirements
 Users with TPU/XLA devices can install the PyTorch XLA stable build with the following command:
 
@@ -50,5 +55,6 @@ watch -n0 tpu-info
 - [X] Bare Minimum TPUs/XLA devices support
 - [X] Install & Requirements Docs
 - [X] Cache XLA HLO Graph
-- [ ] SPMD mode
+- [X] SPMD mode
+- [ ] Optimize For ComfyUI
 - [ ] Eager mode 
