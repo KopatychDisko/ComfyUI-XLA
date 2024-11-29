@@ -44,7 +44,7 @@ pip install 'torch_xla[tpu] @ https://storage.googleapis.com/pytorch-xla-release
 ```
 ### GPU Plugin
 
-PyTorch/XLA now provides GPU support through a plugin package similar to `libtpu`:
+For users with GPU, you can install the GPU Plugin to use Pytorch/XLA
 
 ```
 pip install torch~=2.5.0 torch_xla~=2.5.0 https://storage.googleapis.com/pytorch-xla-releases/wheels/cuda/12.1/torch_xla_cuda_plugin-2.5.0-py3-none-any.whl
