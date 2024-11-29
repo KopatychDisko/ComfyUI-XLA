@@ -142,7 +142,7 @@ def prepare_callback(model, steps, x0_output_dict=None):
 
     pbar = comfy.utils.ProgressBar(steps)
 
-    if not isinstance(model.model.diffusion_model, FSDPv2):
+    if args.xla_spmd and not isinstance(model.model.diffusion_model, FSDPv2):
         model.model.diffusion_model = FSDPv2(model.model.diffusion_model)
 
     def callback(step, x0, x, total_steps):
