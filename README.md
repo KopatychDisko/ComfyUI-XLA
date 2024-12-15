@@ -1,8 +1,8 @@
 <div align="center">
 
-# ComfyUI-TPU
+# ComfyUI-XLA
 
-**TPUs/XLA devices support for ComfyUI**
+**XLA devices(TPUs/GPUs) support for ComfyUI**
 
 [![Dynamic JSON Badge][discord-shield]][discord-url]
 
