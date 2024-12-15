@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import threading
 import psutil
 import logging
 from enum import Enum
@@ -31,7 +32,8 @@ class VRAMState(Enum):
     LOW_VRAM = 2
     NORMAL_VRAM = 3
     HIGH_VRAM = 4
-    SHARED = 5  # No dedicated vram: memory shared between CPU and GPU but models still need to be moved between both.
+    # No dedicated vram: memory shared between CPU and GPU but models still need to be moved between both.
+    SHARED = 5
 
 
 class CPUState(Enum):
@@ -80,7 +82,8 @@ if args.directml is not None:
         )
     )
     # torch_directml.disable_tiled_resources(True)
-    lowvram_available = False  # TODO: need to find a way to get free memory in directml before this can be enabled by default.
+    # TODO: need to find a way to get free memory in directml before this can be enabled by default.
+    lowvram_available = False
 
 try:
     import intel_extension_for_pytorch as ipex
@@ -390,7 +393,8 @@ def get_torch_device_name(device):
 
 
 try:
-    logging.info("Device: {}".format(get_torch_device_name(get_torch_device())))
+    logging.info("Device: {}".format(
+        get_torch_device_name(get_torch_device())))
 except:
     logging.warning("Could not pick default device.")
 
@@ -566,7 +570,8 @@ def unload_model_clones(model, unload_weights_only=True, force_unload=True):
 
     for i in to_unload:
         logging.debug("unload clone {} {}".format(i, unload_weight))
-        current_loaded_models.pop(i).model_unload(unpatch_weights=unload_weight)
+        current_loaded_models.pop(i).model_unload(
+            unpatch_weights=unload_weight)
 
     return unload_weight
 
@@ -629,7 +634,8 @@ def load_models_gpu(
     global vram_state
 
     inference_memory = minimum_inference_memory()
-    extra_mem = max(inference_memory, memory_required + extra_reserved_memory())
+    extra_mem = max(inference_memory, memory_required +
+                    extra_reserved_memory())
     if minimum_memory_required is None:
         minimum_memory_required = extra_mem
     else:
@@ -683,7 +689,8 @@ def load_models_gpu(
                         "Unloading models for lowram load."
                     )  # TODO: partial model unloading when this case happens, also handle the opposite case where models can be unlowvramed.
                     models_to_load = free_memory(minimum_memory_required, d)
-                    logging.info("{} models unloaded.".format(len(models_to_load)))
+                    logging.info("{} models unloaded.".format(
+                        len(models_to_load)))
                 else:
                     use_more_memory(
                         free_mem - minimum_memory_required, models_already_loaded, d
@@ -758,9 +765,8 @@ def load_models_gpu(
         if vram_set_state == VRAMState.NO_VRAM:
             lowvram_model_memory = 64 * 1024 * 1024
 
-        cur_loaded_model = loaded_model.model_load(
-            lowvram_model_memory, force_patch_weights=force_patch_weights
-        )
+        loaded_model.model_load(lowvram_model_memory,
+                                force_patch_weights=force_patch_weights)
         current_loaded_models.insert(0, loaded_model)
 
     devs = set(map(lambda a: a.device, models_already_loaded))
@@ -832,7 +838,7 @@ def unet_offload_device():
 
 def unet_inital_load_device(parameters, dtype):
     torch_dev = get_torch_device()
-    if vram_state == VRAMState.HIGH_VRAM:
+    if vram_state == VRAMState.HIGH_VRAM or vram_state == VRAMState.SHARED:
         return torch_dev
 
     cpu_dev = torch.device("cpu")
@@ -922,7 +928,8 @@ def unet_manual_cast(
     if weight_dtype == torch.float32:
         return None
 
-    fp16_supported = should_use_fp16(inference_device, prioritize_performance=False)
+    fp16_supported = should_use_fp16(
+        inference_device, prioritize_performance=False)
     if fp16_supported and weight_dtype == torch.float16:
         return None
 
@@ -930,7 +937,8 @@ def unet_manual_cast(
     if bf16_supported and weight_dtype == torch.bfloat16:
         return None
 
-    fp16_supported = should_use_fp16(inference_device, prioritize_performance=True)
+    fp16_supported = should_use_fp16(
+        inference_device, prioritize_performance=True)
     for dt in supported_dtypes:
         if dt == torch.float16 and fp16_supported:
             return torch.float16
@@ -964,7 +972,7 @@ def text_encoder_initial_device(load_device, offload_device, model_size=0):
         return offload_device
 
     if is_device_mps(load_device):
-        return offload_device
+        return load_device
 
     mem_l = get_free_memory(load_device)
     mem_o = get_free_memory(offload_device)
@@ -1194,7 +1202,8 @@ def get_free_memory(dev=None, torch_free_too=False):
             mem_reserved = stats["reserved_bytes.all.current"]
             mem_free_torch = mem_reserved - mem_active
             mem_free_xpu = (
-                torch.xpu.get_device_properties(dev).total_memory - mem_reserved
+                torch.xpu.get_device_properties(
+                    dev).total_memory - mem_reserved
             )
             mem_free_total = mem_free_xpu + mem_free_torch
         elif cpu_state == CPUState.XLA:
@@ -1445,7 +1454,6 @@ def resolve_lowvram_weight(weight, model, key):  # TODO: remove
 
 
 # TODO: might be cleaner to put this somewhere else
-import threading
 
 
 class InterruptProcessingException(Exception):
