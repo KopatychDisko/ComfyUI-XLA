@@ -18,7 +18,7 @@
 - 29/11/2024: Multi-TPUs/XLA devices support for ComfyUI! Might even work on GPUs!
 - 26/11/2024: Initial ComfyUI Support for TPUs/XLA devices!
 
-#### TPU/XLA Devices Mode
+#### XLA Devices Mode
 
 Users can enable by adding the command line arg `--xla`
 
