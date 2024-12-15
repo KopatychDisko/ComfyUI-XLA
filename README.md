@@ -13,12 +13,12 @@
 
 </div>
 
-#### Updates
+## Updates
 
 - 29/11/2024: Multi-TPUs/XLA devices support for ComfyUI! Might even work on GPUs!
 - 26/11/2024: Initial ComfyUI Support for TPUs/XLA devices!
 
-#### XLA Devices Mode
+## XLA Devices Mode
 
 Users can enable by adding the command line arg `--xla`
 
@@ -32,7 +32,7 @@ To utilize all your devices with SPMD/FSDPv2, you can use the command line arg `
 python3.10 main.py --xla_spmd
 ```
 
-#### TPU/XLA Devices Requirements
+## TPU/XLA Devices Requirements
 
 ### TPU
 
@@ -57,7 +57,7 @@ For users with GPU, you can install the GPU Plugin to use Pytorch/XLA
 pip install torch~=2.5.0 torch_xla~=2.5.0 https://storage.googleapis.com/pytorch-xla-releases/wheels/cuda/12.1/torch_xla_cuda_plugin-2.5.0-py3-none-any.whl
 ```
 
-### Memory Info
+## Memory Info
 
 To get memory info for TPU devices, install the [tpu-info](https://github.com/AI-Hypercomputer/cloud-accelerator-diagnostics/tree/main/tpu_info) package with the following command:
 
@@ -71,7 +71,7 @@ To monitor tpu-info
 watch -n0 tpu-info
 ```
 
-#### To-do list
+## To-do list
 
 - [x] Bare Minimum TPUs/XLA devices support
 - [x] Install & Requirements Docs
