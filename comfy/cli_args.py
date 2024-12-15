@@ -373,8 +373,6 @@ xla_group.add_argument(
     help="To use the XLA devices with SPMD/FSDPv2 for everything.",
 )
 
-parser.add_argument("--xla", action="store_true", help="To use the XLA devices for everything.")
-
 # The default built-in provider hosted under web/
 DEFAULT_VERSION_STRING = "comfyanonymous/ComfyUI@latest"
 
