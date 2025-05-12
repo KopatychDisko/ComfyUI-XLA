@@ -25,6 +25,8 @@ import torch
 import sys
 import platform
 
+import torch_xla.core.xla_model as xm
+
 
 class VRAMState(Enum):
     DISABLED = 0  # No vram present: no need to move models to vram
@@ -189,7 +191,7 @@ def get_torch_device():
     if cpu_state == CPUState.CPU:
         return torch.device("cpu")
     if cpu_state == CPUState.XLA:
-        return xla.device()
+        return xm.xla_device()
     else:
         if is_intel_xpu():
             return torch.device("xpu", torch.xpu.current_device())
