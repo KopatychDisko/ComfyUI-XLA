@@ -108,8 +108,6 @@ try:
         import torch_xla.core.xla_model as xm
         from torch_xla import runtime as xr
 
-        xr.initialize_cache("/tmp")
-
         cpu_state = CPUState.XLA
         logging.info("Using XLA")
 
@@ -127,14 +125,6 @@ try:
         # To be noted, the mesh must have an axis named 'fsdp', which the weights and activations will be sharded on.
         mesh = xs.Mesh(device_ids, mesh_shape, ("fsdp", "model"))
         xs.set_global_mesh(mesh)
-
-    if args.xla_eager or args.xla_eager_compile:
-        if not args.xla and not args.xla_spmd:
-            raise ValueError(
-                "XLA eager mode requires XLA or XLA SPMD mode to be enabled"
-            )
-        xla.experimental.eager_mode(True)
-        logging.info("Using XLA eager mode")
 
 
 except Exception as e:
